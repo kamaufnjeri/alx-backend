@@ -2,10 +2,10 @@
 """
 Hypermedia pagination
 """
-
 import csv
 from typing import List
 import math
+
 
 def index_range(page: int, page_size: int) -> tuple:
     """
@@ -17,8 +17,10 @@ def index_range(page: int, page_size: int) -> tuple:
 
     return start_index, end_index
 
+
 class Server:
-    """Server class to paginate a database of popular baby names.
+    """
+    Server class to paginate a database of popular baby names.
     """
     DATA_FILE = "Popular_Baby_Names.csv"
 
@@ -40,10 +42,11 @@ class Server:
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """
-        Returns the appropriate page of the dataset based on pagination parameters.
+        Returns the appropriate page of the dataset
+        based on pagination parameters.
         """
-        assert isinstance(page, int) and page > 0, "Page must be a positive integer"
-        assert isinstance(page_size, int) and page_size > 0, "Page size must be a positive integer"
+        assert isinstance(page, int) and page > 0
+        assert isinstance(page_size, int) and page_size > 0
 
         start_index, end_index = index_range(page, page_size)
         dataset = self.dataset()
@@ -71,7 +74,7 @@ class Server:
             'total_pages': total_pages
         }
 
-# Test cases
+
 if __name__ == "__main__":
     server = Server()
 
