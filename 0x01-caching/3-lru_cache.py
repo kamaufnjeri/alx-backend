@@ -28,6 +28,5 @@ class LRUCache(BaseCaching):
             self.order_cache.remove(key)
             self.order_cache.append(key)
             return self.cache_data.get(key)
-        
         else:
             return None
