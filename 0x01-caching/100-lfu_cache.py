@@ -3,30 +3,31 @@
 BaseCaching = __import__('base_caching').BaseCaching
 
 
-class MRUCache(BaseCaching):
+class LFUCache(BaseCaching):
     """
     class FIFOCache inherits from BaseCache
     """
     def __init__(self):
         super().__init__()
-        self.order_cache = []
+        self.frequency_cache = {}
 
     def put(self, key, item):
         """add to cached data"""
         if key is not None and item is not None:
             if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-                discard_key = self.order_cache[len(self.order_cache) - 1]
-                self.order_cache.remove(discard_key)
+                discard_key = min(
+                    self.frequency_cache, key=self.frequency_cache.get
+                )
                 del self.cache_data[discard_key]
+                del self.frequency_cache[discard_key]
                 print(f"DISCARD: {discard_key}")
             self.cache_data[key] = item
-            self.order_cache.append(key)
+            self.frequency_cache[key] = 1
 
     def get(self, key):
         """get by key"""
-        if key is not None and key in self.order_cache:
-            self.order_cache.remove(key)
-            self.order_cache.append(key)
+        if key is not None and key in self.cache_data.keys():
+            self.frequency_cache[key] += 1
             return self.cache_data.get(key)
         else:
             return None
