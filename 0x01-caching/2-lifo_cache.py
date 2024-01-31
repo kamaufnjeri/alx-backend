@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""fifo caching method"""
+"""lifo caching method"""
 BaseCaching = __import__('base_caching').BaseCaching
 
 
-class FIFOCache(BaseCaching):
+class LIFOCache(BaseCaching):
     """
-    class FIFOCache inherits from BaseCache
+    class LIFOCache inherits from BaseCache
     """
     def __init__(self):
         super().__init__()
@@ -15,7 +15,7 @@ class FIFOCache(BaseCaching):
         """add to cached data"""
         if key is not None and item is not None:
             if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-                discard_key = self.order_cache[0]
+                discard_key = self.order_cache[len(self.order_cache) - 1]
                 self.order_cache.remove(discard_key)
                 del self.cache_data[discard_key]
                 print(f"DISCARD: {discard_key}")
