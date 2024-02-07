@@ -7,6 +7,7 @@ from typing import Dict, Union
 from flask import Flask, request, g, render_template
 from flask_babel import Babel
 
+
 class AppConfig:
     """
     Application configuration class.
@@ -15,20 +16,19 @@ class AppConfig:
     DEFAULT_LANGUAGE = 'en'
     DEFAULT_TIMEZONE = 'UTC'
 
-# Instantiate the application object
+
 app = Flask(__name__)
 app.config.from_object(AppConfig)
 
-# Wrap the application with Babel
 babel = Babel(app)
 
-# Dummy user data
 users = {
     1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
     2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
     3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
     4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
 }
+
 
 def get_user(id) -> Union[Dict[str, Union[str, None]], None]:
     """
@@ -39,6 +39,7 @@ def get_user(id) -> Union[Dict[str, Union[str, None]], None]:
         (Dict): user dictionary if id is valid else None.
     """
     return users.get(int(id), {})
+
 
 @babel.localeselector
 def get_locale() -> str:
@@ -55,6 +56,7 @@ def get_locale() -> str:
         if locale and locale in AppConfig.SUPPORTED_LANGUAGES:
             return locale
 
+
 @app.before_request
 def before_request() -> None:
     """
@@ -62,12 +64,14 @@ def before_request() -> None:
     """
     setattr(g, 'user', get_user(request.args.get('login_as', 0)))
 
+
 @app.route('/', strict_slashes=False)
 def index() -> str:
     """
     Render a basic HTML template.
     """
     return render_template('6-index.html')
+
 
 if __name__ == '__main__':
     # Specify host and port for the development server

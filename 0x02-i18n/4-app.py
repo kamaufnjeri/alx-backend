@@ -5,6 +5,7 @@ A Basic Flask application for internationalization (i18n) using Flask-Babel.
 from flask import Flask, request, render_template
 from flask_babel import Babel
 
+
 class AppConfig:
     """
     Application configuration class.
@@ -13,13 +14,12 @@ class AppConfig:
     DEFAULT_LANGUAGE = 'en'
     DEFAULT_TIMEZONE = 'UTC'
 
-# Create an instance of Flask
+
 app = Flask(__name__)
-# Load configuration from the AppConfig class
 app.config.from_object(AppConfig)
 
-# Wrap the application with Babel
 babel = Babel(app)
+
 
 @babel.localeselector
 def get_locale() -> str:
@@ -29,7 +29,10 @@ def get_locale() -> str:
     locale = request.args.get('locale', '').strip()
     if locale and locale in app.config['SUPPORTED_LANGUAGES']:
         return locale
-    return request.accept_languages.best_match(app.config['SUPPORTED_LANGUAGES'])
+    return request.accept_languages.best_match(
+        app.config['SUPPORTED_LANGUAGES']
+    )
+
 
 @app.route('/', strict_slashes=False)
 def display_index() -> str:
@@ -38,6 +41,6 @@ def display_index() -> str:
     """
     return render_template('4-index.html')
 
+
 if __name__ == '__main__':
-    # Specify host and port for the development server
     app.run(host='0.0.0.0', port=5000)
