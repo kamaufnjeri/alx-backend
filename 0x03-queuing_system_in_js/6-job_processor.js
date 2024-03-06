@@ -1,3 +1,4 @@
+#!/usr/bin/node
 import { createQueue } from "kue";
 
 const queue = createQueue();

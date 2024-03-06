@@ -1,3 +1,4 @@
+#!/usr/bin/node
 import { createClient, print } from 'redis';
 import { promisify } from 'util';
 

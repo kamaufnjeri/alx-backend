@@ -1,3 +1,4 @@
+#!/usr/bin/node
 import { createQueue } from "kue";
 
 const queue = createQueue();
@@ -57,7 +58,7 @@ jobs.forEach((jobData) => {
         console.log(`Notification job ${job.id} completed`);
     })
     .on('failed', (err) => {
-        console.log(`Notification job JOB_ID failed: ${err}`);
+        console.log(`Notification job ${job.id} failed: ${err}`);
     })
     .on('progress', (progress) => {
         console.log(`Notification job ${job.id} ${progress}% complete`);
